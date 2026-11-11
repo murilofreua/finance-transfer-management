@@ -1,6 +1,6 @@
 # Finance — Sistema de Transferências Financeiras
 
-API REST para gerenciamento de contas e realização de transferências financeiras imediatas e agendadas, desenvolvida como parte de um teste técnico para Desenvolvedor .NET.
+API REST para gerenciamento de contas e realização de transferências financeiras imediatas e agendadas.
 
 ## Tecnologias utilizadas
 
@@ -86,7 +86,6 @@ As transferências agendadas são processadas automaticamente por um BackgroundS
 - SQL Server
 - Node.js
 - npm
-- Visual Studio 2022 ou VS Code
 
 ### 1. Configuração do banco de dados
 
