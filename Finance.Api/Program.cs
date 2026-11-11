@@ -56,6 +56,27 @@ builder.Services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<FinanceDbContext>();
+
+    await dbContext.Database.MigrateAsync();
+
+    await dbContext.Database.ExecuteSqlRawAsync("""
+        IF NOT EXISTS (SELECT 1 FROM TransferLimits WHERE Period = 'Day')
+        BEGIN
+            INSERT INTO TransferLimits (Id, Period, MaxAmountPerHour, MaxAttemptsPerHour)
+            VALUES (NEWID(), 'Day', 5000.00, 10);
+        END;
+
+        IF NOT EXISTS (SELECT 1 FROM TransferLimits WHERE Period = 'Night')
+        BEGIN
+            INSERT INTO TransferLimits (Id, Period, MaxAmountPerHour, MaxAttemptsPerHour)
+            VALUES (NEWID(), 'Night', 2000.00, 5);
+        END;
+        """);
+}
+
 app.UseCors("VueFrontend");
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();

@@ -1,0 +1,27 @@
+# Git
+.git/
+.gitignore
+
+# .NET
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+
+# Node.js / Vue
+**/node_modules/
+**/dist/
+**/.vite/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDEs
+.idea/
+.vscode/
+
+# Logs
+*.log

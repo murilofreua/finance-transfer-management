@@ -29,13 +29,20 @@ API REST para gerenciamento de contas e realização de transferências financei
 O backend utiliza uma abordagem baseada em Clean Architecture, com separação de responsabilidades entre as seguintes camadas:
 
 ```text
-Finance
-├── Finance.Api
-├── Finance.Application
-├── Finance.Domain
-├── Finance.Infrastructure
-├── Finance.UnitTests
-└── Finance.IntegrationTests
+Finance/
+├── Finance.Api/
+├── Finance.Application/
+├── Finance.Domain/
+├── Finance.Infrastructure/
+├── Finance.IntegrationTests/
+├── Finance.UnitTests/
+├── finance-frontend/
+├── Finance.sln
+├── docker-compose.yml
+├── .dockerignore
+├── .env.example
+├── .gitignore
+└── README.md
 
 finance-frontend/
 └── src/
@@ -78,7 +85,77 @@ finance-frontend/
 ### Processamento de agendamentos
 As transferências agendadas são processadas automaticamente por um BackgroundService, que verifica periodicamente as transferências pendentes e realiza as validações necessárias antes da execução.
 
-## Como executar o projeto
+## Execução com Docker
+
+A aplicação pode ser executada integralmente utilizando Docker Compose, sem a necessidade de instalar o SQL Server, .NET SDK ou Node.js na máquina.
+
+### Pré-requisitos
+
+- Docker Desktop instalado e em execução.
+
+### Configuração
+
+Na raiz do projeto, crie um arquivo `.env` com a senha do usuário `sa` do SQL Server:
+
+```env
+MSSQL_SA_PASSWORD=SuaSenhaForteAqui
+```
+
+> O arquivo `.env` não deve ser versionado, pois contém credenciais.
+
+### Inicialização
+
+Execute na raiz do projeto:
+
+```bash
+docker compose up -d --build
+```
+
+O Docker Compose irá construir e iniciar os seguintes serviços:
+
+- **SQL Server:** banco de dados da aplicação.
+- **API:** aplicação backend em .NET 8.
+- **Frontend:** aplicação Vue 3 servida pelo Nginx.
+
+As migrations e os dados iniciais dos limites de transferência são aplicados automaticamente pela API.
+
+### Acessos
+
+| Serviço | Endereço |
+|---|---|
+| Frontend | http://localhost:5173 |
+| API / Swagger | http://localhost:5007/swagger |
+| SQL Server | localhost:1434 |
+
+### Gerenciamento dos containers
+
+Visualizar o status dos serviços:
+
+```bash
+docker compose ps
+```
+
+Visualizar os logs:
+
+```bash
+docker compose logs -f
+```
+
+Encerrar os serviços:
+
+```bash
+docker compose down
+```
+
+Os dados do banco são armazenados em um volume Docker persistente e permanecem disponíveis após a recriação dos containers.
+
+Para remover também os dados persistidos, utilize:
+
+```bash
+docker compose down -v
+```
+
+## Execução manual
 
 ### Pré-requisitos
 
