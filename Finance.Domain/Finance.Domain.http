@@ -1,0 +1,11 @@
+@Finance.Domain_HostAddress = http://localhost:5191
+
+GET {{Finance.Domain_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{Finance.Domain_HostAddress}}/todos/1
+Accept: application/json
+
+###

@@ -1,0 +1,11 @@
+@Finance.Infrastructure_HostAddress = http://localhost:5024
+
+GET {{Finance.Infrastructure_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{Finance.Infrastructure_HostAddress}}/todos/1
+Accept: application/json
+
+###
